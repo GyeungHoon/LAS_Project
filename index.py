@@ -21,7 +21,7 @@ class MyApp(QMainWindow):
         self.move(300, 150)
         self.resize(1800, 960)
         self.center()
-        
+
         # UI 구성
         self.setup_top_menu()
         self.setup_home_ui()
@@ -96,7 +96,7 @@ class MyApp(QMainWindow):
         styled_layout.addWidget(report)
         styled_layout.addWidget(proxy)
         styled_layout.addWidget(proxycount)
-        
+
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box1.setParent(self)
         styled_box1.move(0, 20)  # 위치 설정
@@ -676,6 +676,7 @@ class MyApp(QMainWindow):
         detect_content.setStyleSheet("""
             QWidget {
                 background-color: #f0f8ff;
+                border: 2px solid #0078d4;
             }
         """)
         
@@ -690,7 +691,67 @@ class MyApp(QMainWindow):
             }
         """)
         
-        # 감지목록 제목
+        # 왼쪽 박스 - 일반감지 단어목록
+        detect_words_container = QWidget()
+        detect_words_container.setStyleSheet("""
+            QWidget {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        """)
+        
+        # 오른쪽 박스 - 일반감지 단어제외목록
+        exclude_words_container = QWidget()
+        exclude_words_container.setStyleSheet("""
+            QWidget {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        """)
+        
+        # 신고감지 단어목록 박스
+        report_words_container = QWidget()
+        report_words_container.setStyleSheet("""
+            QWidget {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        """)
+        
+        # 신고감지 제외목록 박스
+        report_exclude_container = QWidget()
+        report_exclude_container.setStyleSheet("""
+            QWidget {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        """)
+        
+        # 자동댓글 단어목록 박스
+        comment_words_container = QWidget()
+        comment_words_container.setStyleSheet("""
+            QWidget {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        """)
+        
+        # 자동댓글 제외목록 박스
+        comment_exclude_container = QWidget()
+        comment_exclude_container.setStyleSheet("""
+            QWidget {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        """)
+        
+        # 왼쪽 제목 - 일반감지 단어목록
         detect_title = QLabel("일반감지 단어목록")
         detect_title.setAlignment(Qt.AlignCenter)
         detect_title.setStyleSheet("""
@@ -698,60 +759,250 @@ class MyApp(QMainWindow):
                 font-size: 14px;
                 color: #0078d4;
                 font-weight: bold;
-                margin-bottom: 5px;
-
+                margin-bottom: 10px;
             }
         """)
         
-        # 감지목록 리스트 컨테이너
-        detect_list_container = QWidget()
-        detect_list_container.setStyleSheet("""
-            QWidget {
-                background-color: #f9f9f9;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                padding: 5px;
+        # 오른쪽 제목 - 일반감지 단어제외목록
+        exclude_title = QLabel("일반감지 단어제외목록")
+        exclude_title.setAlignment(Qt.AlignCenter)
+        exclude_title.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #e74c3c;
+                font-weight: bold;
+                margin-bottom: 10px;
             }
         """)
         
-        # 감지된 계정들 (실제로는 동적으로 생성될 것)
-        detect_list_label = QLabel("""
-        📋 감지된 계정 목록
-        
-        • 계정명: user123 (IP: 192.168.1.100)
-        • 계정명: spammer456 (IP: 192.168.1.101)  
-        • 계정명: bot789 (IP: 192.168.1.102)
-        • 계정명: fake_user (IP: 192.168.1.103)
-        • 계정명: suspicious_account (IP: 192.168.1.104)
-        
-        총 5개의 계정이 감지되었습니다.
+        # 신고감지 단어목록 제목
+        report_title = QLabel("신고감지 단어목록")
+        report_title.setAlignment(Qt.AlignCenter)
+        report_title.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #8e44ad;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
         """)
-        detect_list_label.setStyleSheet("""
+        
+        # 신고감지 제외목록 제목
+        report_exclude_title = QLabel("신고감지 제외목록")
+        report_exclude_title.setAlignment(Qt.AlignCenter)
+        report_exclude_title.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #c0392b;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+        """)
+        
+        # 자동댓글 단어목록 제목
+        comment_title = QLabel("자동댓글 단어목록")
+        comment_title.setAlignment(Qt.AlignCenter)
+        comment_title.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #27ae60;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+        """)
+        
+        # 자동댓글 제외목록 제목
+        comment_exclude_title = QLabel("자동댓글 제외목록")
+        comment_exclude_title.setAlignment(Qt.AlignCenter)
+        comment_exclude_title.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #d35400;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+        """)
+        
+        # 왼쪽 내용 - 감지 단어들
+        detect_words_label = QLabel("""
+        📋 감지 단어 목록
+        
+        • 스팸
+        • 광고
+        • 홍보
+        • 봇
+        • 가짜
+        • 의심스러운
+        
+        총 6개의 단어가 등록되었습니다.
+        """)
+        detect_words_label.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 color: #333;
-                line-height: 1.5;
+            }
+        """)
+        
+        # 오른쪽 내용 - 제외 단어들
+        exclude_words_label = QLabel("""
+        🚫 제외 단어 목록
+        
+        • 정상
+        • 안전
+        • 신뢰
+        • 검증됨
+        • 공식
+        • 인증
+        
+        총 6개의 단어가 등록되었습니다.
+        """)
+        exclude_words_label.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #333;
+            }
+        """)
+        
+        # 신고감지 단어목록 내용
+        report_words_label = QLabel("""
+        📋 신고감지 단어 목록
+        
+        • 욕설
+        • 비방
+        • 혐오
+        • 차별
+        • 괴롭힘
+        • 협박
+        
+        총 6개의 단어가 등록되었습니다.
+        """)
+        report_words_label.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #333;
+            }
+        """)
+        
+        # 신고감지 제외목록 내용
+        report_exclude_label = QLabel("""
+        🚫 신고 제외 단어 목록
+        
+        • 건전
+        • 건설적
+        • 도움
+        • 격려
+        • 칭찬
+        • 응원
+        
+        총 6개의 단어가 등록되었습니다.
+        """)
+        report_exclude_label.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #333;
+            }
+        """)
+        
+        # 자동댓글 단어목록 내용
+        comment_words_label = QLabel("""
+        📋 자동댓글 단어 목록
+        
+        • 좋아요
+        • 감사합니다
+        • 멋져요
+        • 대단해요
+        • 응원해요
+        • 화이팅
+        
+        총 6개의 단어가 등록되었습니다.
+        """)
+        comment_words_label.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #333;
+            }
+        """)
+        
+        # 자동댓글 제외목록 내용
+        comment_exclude_label = QLabel("""
+        🚫 자동댓글 제외 단어 목록
+        
+        • 스팸
+        • 광고
+        • 홍보
+        • 링크
+        • 연락처
+        • 개인정보
+        
+        총 6개의 단어가 등록되었습니다.
+        """)
+        comment_exclude_label.setStyleSheet("""
+            QLabel {
+                font-size: 14px;
+                color: #333;
             }
         """)
         
 
         
-        # 레이아웃 구성
-        detect_main_layout = QVBoxLayout(detect_main_container)
-        detect_main_layout.addWidget(detect_title)
-        detect_main_layout.addWidget(detect_list_container)
+        # 레이아웃 제거하고 절대 위치로 설정 - 2x3 그리드
+        detect_words_container.setParent(detect_main_container)
+        exclude_words_container.setParent(detect_main_container)
+        report_words_container.setParent(detect_main_container)
+        report_exclude_container.setParent(detect_main_container)
+        comment_words_container.setParent(detect_main_container)
+        comment_exclude_container.setParent(detect_main_container)
         
-        # 위젯 크기 고정 (레이아웃에서도 적용됨)
-        detect_title.setFixedSize(300, 50)
-        detect_list_container.setFixedSize(300, 790)
+        # 1행 6열로 박스들 위치 조정
+        detect_words_container.move(20, 20)      # (1,1)
+        exclude_words_container.move(280, 20)    # (1,2)
+        report_words_container.move(540, 20)     # (1,3)
+        report_exclude_container.move(800, 20)   # (1,4)
+        comment_words_container.move(1060, 20)   # (1,5)
+        comment_exclude_container.move(1320, 20) # (1,6)
         
+        # 위젯 크기 고정 (각 박스 250x750)
+        detect_words_container.setFixedSize(250, 750)
+        exclude_words_container.setFixedSize(250, 750)
+        report_words_container.setFixedSize(250, 750)
+        report_exclude_container.setFixedSize(250, 750)
+        comment_words_container.setFixedSize(250, 750)
+        comment_exclude_container.setFixedSize(250, 750)
         
-        detect_list_layout = QVBoxLayout(detect_list_container)
-        detect_list_layout.addWidget(detect_list_label)
+        # 각 박스 내부 레이아웃 설정
+        detect_left_layout = QVBoxLayout(detect_words_container)
+        detect_left_layout.addWidget(detect_title)
+        detect_left_layout.addWidget(detect_words_label)
+        detect_title.setFixedSize(230, 50)
+        
+        exclude_right_layout = QVBoxLayout(exclude_words_container)
+        exclude_right_layout.addWidget(exclude_title)
+        exclude_right_layout.addWidget(exclude_words_label)
+        exclude_title.setFixedSize(230, 50)
+        
+        report_left_layout = QVBoxLayout(report_words_container)
+        report_left_layout.addWidget(report_title)
+        report_left_layout.addWidget(report_words_label)
+        report_title.setFixedSize(230, 50)
+        
+        report_exclude_layout = QVBoxLayout(report_exclude_container)
+        report_exclude_layout.addWidget(report_exclude_title)
+        report_exclude_layout.addWidget(report_exclude_label)
+        report_exclude_title.setFixedSize(230, 50)
+        
+        comment_left_layout = QVBoxLayout(comment_words_container)
+        comment_left_layout.addWidget(comment_title)
+        comment_left_layout.addWidget(comment_words_label)
+        comment_title.setFixedSize(230, 50)
+        
+        comment_exclude_layout = QVBoxLayout(comment_exclude_container)
+        comment_exclude_layout.addWidget(comment_exclude_title)
+        comment_exclude_layout.addWidget(comment_exclude_label)
+        comment_exclude_title.setFixedSize(230, 50)
 
-        detect_layout = QVBoxLayout(detect_content)
-        detect_layout.addWidget(detect_main_container)
-        detect_layout.addStretch()
+        # 절대 위치로 설정
+        detect_main_container.setParent(detect_content)
+        detect_main_container.resize(1800, 880)  # 크기 조정
         
         # 감지목록 콘텐츠를 탭 위젯에 추가
         self.tab_content_widgets.append(detect_content)
