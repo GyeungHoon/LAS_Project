@@ -366,7 +366,7 @@ class MyApp(QMainWindow):
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box4.setParent(self)
         styled_box4.move(300, 130)  # 위치 설정
-        styled_box4.resize(500, 800)  # 크기 설정
+        styled_box4.resize(400, 800)  # 크기 설정
         
         # styled_box4를 참조용으로 저장 (탭 전환시 숨기기 위해)
         self.styled_box4 = styled_box4
@@ -389,7 +389,7 @@ class MyApp(QMainWindow):
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box5.setParent(self)
-        styled_box5.move(600, 130)  # 위치 설정
+        styled_box5.move(700, 130)  # 위치 설정
         styled_box5.resize(1080, 400)  # 크기 설정
         
         # styled_box5를 참조용으로 저장
@@ -662,7 +662,7 @@ class MyApp(QMainWindow):
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box6.setParent(self)
-        styled_box6.move(600, 530)  # 위치 설정
+        styled_box6.move(700, 530)  # 위치 설정
         styled_box6.resize(1080, 400)  # 크기 설정
         
         # styled_box6를 참조용으로 저장
