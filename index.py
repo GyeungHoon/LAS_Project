@@ -115,6 +115,7 @@ class MyApp(QMainWindow):
             }
         """)
         proxy.setFixedHeight(40)
+        proxy.clicked.connect(self.load_proxy_file)  # 파일 선택 이벤트 연결
         
         proxycount = QLabel("0개 불러옴")
         proxycount.setStyleSheet("""
@@ -1966,6 +1967,56 @@ class MyApp(QMainWindow):
         
         # 팝업 창을 화면 중앙에 표시
         popup.exec_()
+
+    # 프록시 파일 불러오기
+    def load_proxy_file(self):
+        from PyQt5.QtWidgets import QFileDialog, QMessageBox
+        
+        # 파일 선택 다이얼로그
+        file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            "프록시 파일 선택",
+            "",
+            "텍스트 파일 (*.txt);;모든 파일 (*.*)"
+        )
+        
+        if file_path:
+            try:
+                # 파일 읽기
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    proxy_lines = file.readlines()
+                
+                # 빈 줄 제거 및 유효한 프록시만 필터링
+                valid_proxies = []
+                for line in proxy_lines:
+                    line = line.strip()
+                    if line and ':' in line:  # IP:PORT 형태인지 확인
+                        valid_proxies.append(line)
+                
+                # 프록시 개수 업데이트
+                if hasattr(self, 'proxycount'):
+                    self.proxycount.setText(f"{len(valid_proxies)}개 불러옴")
+                
+                # 성공 메시지
+                QMessageBox.information(
+                    self,
+                    "파일 불러오기 완료",
+                    f"프록시 파일을 성공적으로 불러왔습니다.\n\n파일: {file_path}\n불러온 프록시: {len(valid_proxies)}개"
+                )
+                
+                # 프록시 데이터를 클래스 변수로 저장 (나중에 사용할 수 있도록)
+                self.proxy_list = valid_proxies
+                
+            except Exception as e:
+                # 오류 메시지
+                QMessageBox.warning(
+                    self,
+                    "파일 읽기 오류",
+                    f"파일을 읽는 중 오류가 발생했습니다:\n{str(e)}"
+                )
+        else:
+            # 파일을 선택하지 않은 경우
+            print("파일 선택이 취소되었습니다.")
 
 
 # 메인 함수
