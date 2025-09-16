@@ -131,13 +131,13 @@ class MyApp(QMainWindow):
         banlist = QLabel('차단 목록')
         banlist.setStyleSheet("""
             QLabel {
-                margin-left: 390px;
+                margin-left: 400px;
             }
         """)
         reportlist = QLabel('신고 계정 목록 / 댓글 계정 목록')
         reportlist.setStyleSheet("""
             QLabel {
-                margin-left: 60px;
+                margin-left: 70px;
             }
         """)
 
@@ -337,7 +337,7 @@ class MyApp(QMainWindow):
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box3.setParent(self)
-        styled_box3.move(0, 130)  # 위치 설정 (원래 위치로 복원)
+        styled_box3.move(10, 130)  # 위치 설정 (10px 이동)
         styled_box3.resize(300, 800)  # 크기 설정
         
         # styled_box3를 참조용으로 저장
@@ -365,7 +365,7 @@ class MyApp(QMainWindow):
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box4.setParent(self)
-        styled_box4.move(300, 130)  # 위치 설정
+        styled_box4.move(310, 130)  # 위치 설정 (10px 이동)
         styled_box4.resize(400, 800)  # 크기 설정
         
         # styled_box4를 참조용으로 저장 (탭 전환시 숨기기 위해)
@@ -389,7 +389,7 @@ class MyApp(QMainWindow):
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box5.setParent(self)
-        styled_box5.move(700, 130)  # 위치 설정
+        styled_box5.move(710, 130)  # 위치 설정 (10px 이동)
         styled_box5.resize(1080, 400)  # 크기 설정
         
         # styled_box5를 참조용으로 저장
@@ -662,7 +662,7 @@ class MyApp(QMainWindow):
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box6.setParent(self)
-        styled_box6.move(700, 530)  # 위치 설정
+        styled_box6.move(710, 530)  # 위치 설정 (10px 이동)
         styled_box6.resize(1080, 400)  # 크기 설정
         
         # styled_box6를 참조용으로 저장
@@ -954,20 +954,20 @@ class MyApp(QMainWindow):
         comment_exclude_container.setParent(detect_main_container)
         
         # 1행 6열로 박스들 위치 조정
-        detect_words_container.move(20, 20)      # (1,1)
-        exclude_words_container.move(280, 20)    # (1,2)
-        report_words_container.move(540, 20)     # (1,3)
-        report_exclude_container.move(800, 20)   # (1,4)
-        comment_words_container.move(1060, 20)   # (1,5)
-        comment_exclude_container.move(1320, 20) # (1,6)
+        detect_words_container.move(10, 20)      # (1,1)
+        exclude_words_container.move(305, 20)    # (1,2)
+        report_words_container.move(605, 20)     # (1,3)
+        report_exclude_container.move(900, 20)   # (1,4)
+        comment_words_container.move(1195, 20)   # (1,5)
+        comment_exclude_container.move(1490, 20) # (1,6)
         
         # 위젯 크기 고정 (각 박스 250x750)
-        detect_words_container.setFixedSize(250, 750)
-        exclude_words_container.setFixedSize(250, 750)
-        report_words_container.setFixedSize(250, 750)
-        report_exclude_container.setFixedSize(250, 750)
-        comment_words_container.setFixedSize(250, 750)
-        comment_exclude_container.setFixedSize(250, 750)
+        detect_words_container.setFixedSize(295, 850)
+        exclude_words_container.setFixedSize(300, 850)
+        report_words_container.setFixedSize(295, 850)
+        report_exclude_container.setFixedSize(295, 850)
+        comment_words_container.setFixedSize(295, 850)
+        comment_exclude_container.setFixedSize(295, 850)
         
         # 각 박스 내부 레이아웃 설정
         detect_left_layout = QVBoxLayout(detect_words_container)
