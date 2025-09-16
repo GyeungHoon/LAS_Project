@@ -736,6 +736,8 @@ class MyApp(QMainWindow):
 
     # 감지목록화면 UI 설정
     def setup_detect_ui(self):
+        from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QLineEdit, QPushButton
+        
         # 감지목록 탭 콘텐츠 - 전체 화면 구성
         detect_content = QWidget()
         detect_content.setStyleSheet("""
@@ -856,6 +858,7 @@ class MyApp(QMainWindow):
                 border: 2px solid #0078d4;
             }
         """)
+        detect_add_button.clicked.connect(lambda: self.add_word_to_list('detect'))
         
         # 일반감지 단어제외목록 컨테이너
         exclude_title_container = QWidget()
@@ -897,6 +900,7 @@ class MyApp(QMainWindow):
                 border: 2px solid #e74c3c;
             }
         """)
+        exclude_add_button.clicked.connect(lambda: self.add_word_to_list('exclude'))
         
         # 신고감지 단어목록 컨테이너
         report_title_container = QWidget()
@@ -938,6 +942,7 @@ class MyApp(QMainWindow):
                 border: 2px solid #8e44ad;
             }
         """)
+        report_add_button.clicked.connect(lambda: self.add_word_to_list('report'))
         
         # 신고감지 제외목록 컨테이너
         report_exclude_title_container = QWidget()
@@ -979,6 +984,7 @@ class MyApp(QMainWindow):
                 border: 2px solid #c0392b;
             }
         """)
+        report_exclude_add_button.clicked.connect(lambda: self.add_word_to_list('report_exclude'))
         
         # 자동댓글 단어목록 컨테이너
         comment_title_container = QWidget()
@@ -1020,6 +1026,7 @@ class MyApp(QMainWindow):
                 border: 2px solid #27ae60;
             }
         """)
+        comment_add_button.clicked.connect(lambda: self.add_word_to_list('comment'))
         
         # 자동댓글 제외목록 컨테이너
         comment_exclude_title_container = QWidget()
@@ -1061,124 +1068,394 @@ class MyApp(QMainWindow):
                 border: 2px solid #d35400;
             }
         """)
+        comment_exclude_add_button.clicked.connect(lambda: self.add_word_to_list('comment_exclude'))
         
-        # 왼쪽 내용 - 감지 단어들
-        detect_words_label = QLabel("""
-        📋 감지 단어 목록
-        
-        • 스팸
-        • 광고
-        • 홍보
-        • 봇
-        • 가짜
-        • 의심스러운
-        
-        총 6개의 단어가 등록되었습니다.
-        """)
-        detect_words_label.setStyleSheet("""
-            QLabel {
-                font-size: 14px;
-                color: #333;
+        # 일반감지 단어목록 테이블
+        self.detect_table = QTableWidget()
+        self.detect_table.setParent(detect_words_container)
+        self.detect_table.move(10, 60)
+        self.detect_table.resize(275, 300)
+        self.detect_table.setColumnCount(2)
+        self.detect_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.detect_table.horizontalHeader().setStretchLastSection(True)
+        self.detect_table.verticalHeader().setVisible(False)  # 행 번호 숨기기
+        self.detect_table.setRowCount(0)
+        self.detect_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
             }
         """)
         
-        # 오른쪽 내용 - 제외 단어들
-        exclude_words_label = QLabel("""
-        🚫 제외 단어 목록
+        # 검색 입력 필드
+        # search_label = QLabel("검색:")
+        # search_label.setParent(detect_words_container)
+        # search_label.move(20, 670)
+        # search_label.resize(30, 20)
         
-        • 정상
-        • 안전
-        • 신뢰
-        • 검증됨
-        • 공식
-        • 인증
+        self.detect_search_input = QLineEdit()
+        self.detect_search_input.setParent(detect_words_container)
+        self.detect_search_input.move(50, 370)
+        self.detect_search_input.resize(150, 25)
+        self.detect_search_input.setPlaceholderText("단어를 검색하세요...")
+        self.detect_search_input.textChanged.connect(lambda: self.search_words('detect'))
         
-        총 6개의 단어가 등록되었습니다.
-        """)
-        exclude_words_label.setStyleSheet("""
-            QLabel {
-                font-size: 14px;
-                color: #333;
+        # 검색 결과 테이블
+        self.detect_search_table = QTableWidget()
+        self.detect_search_table.setParent(detect_words_container)
+        self.detect_search_table.move(10, 400)
+        self.detect_search_table.resize(275, 200)
+        self.detect_search_table.setColumnCount(2)
+        self.detect_search_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.detect_search_table.horizontalHeader().setStretchLastSection(True)
+        self.detect_search_table.verticalHeader().setVisible(False)  # 행 번호 숨기기
+        self.detect_search_table.setRowCount(0)
+        self.detect_search_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
             }
         """)
         
-        # 신고감지 단어목록 내용
-        report_words_label = QLabel("""
-        📋 신고감지 단어 목록
-        
-        • 욕설
-        • 비방
-        • 혐오
-        • 차별
-        • 괴롭힘
-        • 협박
-        
-        총 6개의 단어가 등록되었습니다.
-        """)
-        report_words_label.setStyleSheet("""
-            QLabel {
-                font-size: 14px;
-                color: #333;
+        # 일반감지 단어제외목록 테이블
+        self.exclude_table = QTableWidget()
+        self.exclude_table.setParent(exclude_words_container)
+        self.exclude_table.move(10, 60)
+        self.exclude_table.resize(275, 300)
+        self.exclude_table.setColumnCount(2)
+        self.exclude_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.exclude_table.horizontalHeader().setStretchLastSection(True)
+        self.exclude_table.verticalHeader().setVisible(False)  # 행 번호 숨기기
+        self.exclude_table.setRowCount(0)
+        self.exclude_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
             }
         """)
         
-        # 신고감지 제외목록 내용
-        report_exclude_label = QLabel("""
-        🚫 신고 제외 단어 목록
+        # 검색 입력 필드
+        self.exclude_search_input = QLineEdit()
+        self.exclude_search_input.setParent(exclude_words_container)
+        self.exclude_search_input.move(50, 370)
+        self.exclude_search_input.resize(150, 25)
+        self.exclude_search_input.setPlaceholderText("단어를 검색하세요...")
+        self.exclude_search_input.textChanged.connect(lambda: self.search_words('exclude'))
         
-        • 건전
-        • 건설적
-        • 도움
-        • 격려
-        • 칭찬
-        • 응원
-        
-        총 6개의 단어가 등록되었습니다.
-        """)
-        report_exclude_label.setStyleSheet("""
-            QLabel {
-                font-size: 14px;
-                color: #333;
+        # 검색 결과 테이블
+        self.exclude_search_table = QTableWidget()
+        self.exclude_search_table.setParent(exclude_words_container)
+        self.exclude_search_table.move(10, 400)
+        self.exclude_search_table.resize(275, 200)
+        self.exclude_search_table.setColumnCount(2)
+        self.exclude_search_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.exclude_search_table.horizontalHeader().setStretchLastSection(True)
+        self.exclude_search_table.verticalHeader().setVisible(False)  # 행 번호 숨기기
+        self.exclude_search_table.setRowCount(0)
+        self.exclude_search_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
             }
         """)
         
-        # 자동댓글 단어목록 내용
-        comment_words_label = QLabel("""
-        📋 자동댓글 단어 목록
-        
-        • 좋아요
-        • 감사합니다
-        • 멋져요
-        • 대단해요
-        • 응원해요
-        • 화이팅
-        
-        총 6개의 단어가 등록되었습니다.
-        """)
-        comment_words_label.setStyleSheet("""
-            QLabel {
-                font-size: 14px;
-                color: #333;
+        # 신고감지 단어목록 테이블
+        self.report_table = QTableWidget()
+        self.report_table.setParent(report_words_container)
+        self.report_table.move(10, 60)
+        self.report_table.resize(275, 300)
+        self.report_table.setColumnCount(2)
+        self.report_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.report_table.horizontalHeader().setStretchLastSection(True)
+        self.report_table.verticalHeader().setVisible(False)  # 행 번호 숨기기
+        self.report_table.setRowCount(0)
+        self.report_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
             }
         """)
         
-        # 자동댓글 제외목록 내용
-        comment_exclude_label = QLabel("""
-        🚫 자동댓글 제외 단어 목록
+        # 검색 입력 필드
+        self.report_search_input = QLineEdit()
+        self.report_search_input.setParent(report_words_container)
+        self.report_search_input.move(50, 370)
+        self.report_search_input.resize(150, 25)
+        self.report_search_input.setPlaceholderText("단어를 검색하세요...")
+        self.report_search_input.textChanged.connect(lambda: self.search_words('report'))
         
-        • 스팸
-        • 광고
-        • 홍보
-        • 링크
-        • 연락처
-        • 개인정보
-        
-        총 6개의 단어가 등록되었습니다.
+        # 검색 결과 테이블
+        self.report_search_table = QTableWidget()
+        self.report_search_table.setParent(report_words_container)
+        self.report_search_table.move(10, 400)
+        self.report_search_table.resize(275, 200)
+        self.report_search_table.setColumnCount(2)
+        self.report_search_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.report_search_table.horizontalHeader().setStretchLastSection(True)
+        self.report_search_table.verticalHeader().setVisible(False)  # 행 번호 숨기기
+        self.report_search_table.setRowCount(0)
+        self.report_search_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
+            }
         """)
-        comment_exclude_label.setStyleSheet("""
-            QLabel {
-                font-size: 14px;
-                color: #333;
+        
+        # 신고감지 제외목록 테이블
+        self.report_exclude_table = QTableWidget()
+        self.report_exclude_table.setParent(report_exclude_container)
+        self.report_exclude_table.move(10, 60)
+        self.report_exclude_table.resize(275, 300)
+        self.report_exclude_table.setColumnCount(2)
+        self.report_exclude_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.report_exclude_table.horizontalHeader().setStretchLastSection(True)
+        self.report_exclude_table.verticalHeader().setVisible(False)
+        self.report_exclude_table.setRowCount(0)
+        self.report_exclude_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
+            }
+        """)
+        
+        # 검색 입력 필드
+        self.report_exclude_search_input = QLineEdit()
+        self.report_exclude_search_input.setParent(report_exclude_container)
+        self.report_exclude_search_input.move(50, 370)
+        self.report_exclude_search_input.resize(150, 25)
+        self.report_exclude_search_input.setPlaceholderText("단어를 검색하세요...")
+        self.report_exclude_search_input.textChanged.connect(lambda: self.search_words('report_exclude'))
+        
+        # 검색 결과 테이블
+        self.report_exclude_search_table = QTableWidget()
+        self.report_exclude_search_table.setParent(report_exclude_container)
+        self.report_exclude_search_table.move(10, 400)
+        self.report_exclude_search_table.resize(275, 200)
+        self.report_exclude_search_table.setColumnCount(2)
+        self.report_exclude_search_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.report_exclude_search_table.horizontalHeader().setStretchLastSection(True)
+        self.report_exclude_search_table.verticalHeader().setVisible(False)
+        self.report_exclude_search_table.setRowCount(0)
+        self.report_exclude_search_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
+            }
+        """)
+        
+        # 자동댓글 단어목록 테이블
+        self.comment_table = QTableWidget()
+        self.comment_table.setParent(comment_words_container)
+        self.comment_table.move(10, 60)
+        self.comment_table.resize(275, 300)
+        self.comment_table.setColumnCount(2)
+        self.comment_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.comment_table.horizontalHeader().setStretchLastSection(True)
+        self.comment_table.verticalHeader().setVisible(False)
+        self.comment_table.setRowCount(0)
+        self.comment_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
+            }
+        """)
+        
+        # 검색 입력 필드
+        self.comment_search_input = QLineEdit()
+        self.comment_search_input.setParent(comment_words_container)
+        self.comment_search_input.move(50, 370)
+        self.comment_search_input.resize(150, 25)
+        self.comment_search_input.setPlaceholderText("단어를 검색하세요...")
+        self.comment_search_input.textChanged.connect(lambda: self.search_words('comment'))
+        
+        # 검색 결과 테이블
+        self.comment_search_table = QTableWidget()
+        self.comment_search_table.setParent(comment_words_container)
+        self.comment_search_table.move(10, 400)
+        self.comment_search_table.resize(275, 200)
+        self.comment_search_table.setColumnCount(2)
+        self.comment_search_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.comment_search_table.horizontalHeader().setStretchLastSection(True)
+        self.comment_search_table.verticalHeader().setVisible(False)
+        self.comment_search_table.setRowCount(0)
+        self.comment_search_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
+            }
+        """)
+        
+        # 자동댓글 제외목록 테이블
+        self.comment_exclude_table = QTableWidget()
+        self.comment_exclude_table.setParent(comment_exclude_container)
+        self.comment_exclude_table.move(10, 60)
+        self.comment_exclude_table.resize(275, 300)
+        self.comment_exclude_table.setColumnCount(2)
+        self.comment_exclude_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.comment_exclude_table.horizontalHeader().setStretchLastSection(True)
+        self.comment_exclude_table.verticalHeader().setVisible(False)
+        self.comment_exclude_table.setRowCount(0)
+        self.comment_exclude_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
+            }
+        """)
+        
+        # 검색 입력 필드
+        self.comment_exclude_search_input = QLineEdit()
+        self.comment_exclude_search_input.setParent(comment_exclude_container)
+        self.comment_exclude_search_input.move(50, 370)
+        self.comment_exclude_search_input.resize(150, 25)
+        self.comment_exclude_search_input.setPlaceholderText("단어를 검색하세요...")
+        self.comment_exclude_search_input.textChanged.connect(lambda: self.search_words('comment_exclude'))
+        
+        # 검색 결과 테이블
+        self.comment_exclude_search_table = QTableWidget()
+        self.comment_exclude_search_table.setParent(comment_exclude_container)
+        self.comment_exclude_search_table.move(10, 400)
+        self.comment_exclude_search_table.resize(275, 200)
+        self.comment_exclude_search_table.setColumnCount(2)
+        self.comment_exclude_search_table.setHorizontalHeaderLabels(['단어', '삭제'])
+        self.comment_exclude_search_table.horizontalHeader().setStretchLastSection(True)
+        self.comment_exclude_search_table.verticalHeader().setVisible(False)
+        self.comment_exclude_search_table.setRowCount(0)
+        self.comment_exclude_search_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                background-color: white;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            QHeaderView::section {
+                background-color: #f5f5f5;
+                padding: 5px;
+                border: 1px solid #ddd;
+                font-weight: bold;
             }
         """)
         
@@ -1211,32 +1488,44 @@ class MyApp(QMainWindow):
         # 각 박스 내부 레이아웃 설정
         detect_left_layout = QVBoxLayout(detect_words_container)
         detect_left_layout.addWidget(title_container)
-        detect_left_layout.addWidget(detect_words_label)
+        detect_left_layout.addWidget(self.detect_table)
+        detect_left_layout.addWidget(self.detect_search_input)
+        detect_left_layout.addWidget(self.detect_search_table)
         title_container.setFixedSize(295, 50)
         
         exclude_right_layout = QVBoxLayout(exclude_words_container)
         exclude_right_layout.addWidget(exclude_title_container)
-        exclude_right_layout.addWidget(exclude_words_label)
+        exclude_right_layout.addWidget(self.exclude_table)
+        exclude_right_layout.addWidget(self.exclude_search_input)
+        exclude_right_layout.addWidget(self.exclude_search_table)
         exclude_title_container.setFixedSize(300, 50)
         
         report_left_layout = QVBoxLayout(report_words_container)
         report_left_layout.addWidget(report_title_container)
-        report_left_layout.addWidget(report_words_label)
+        report_left_layout.addWidget(self.report_table)
+        report_left_layout.addWidget(self.report_search_input)
+        report_left_layout.addWidget(self.report_search_table)
         report_title_container.setFixedSize(295, 50)
         
         report_exclude_layout = QVBoxLayout(report_exclude_container)
         report_exclude_layout.addWidget(report_exclude_title_container)
-        report_exclude_layout.addWidget(report_exclude_label)
+        report_exclude_layout.addWidget(self.report_exclude_table)
+        report_exclude_layout.addWidget(self.report_exclude_search_input)
+        report_exclude_layout.addWidget(self.report_exclude_search_table)
         report_exclude_title_container.setFixedSize(295, 50)
         
         comment_left_layout = QVBoxLayout(comment_words_container)
         comment_left_layout.addWidget(comment_title_container)
-        comment_left_layout.addWidget(comment_words_label)
+        comment_left_layout.addWidget(self.comment_table)
+        comment_left_layout.addWidget(self.comment_search_input)
+        comment_left_layout.addWidget(self.comment_search_table)
         comment_title_container.setFixedSize(295, 50)
         
         comment_exclude_layout = QVBoxLayout(comment_exclude_container)
         comment_exclude_layout.addWidget(comment_exclude_title_container)
-        comment_exclude_layout.addWidget(comment_exclude_label)
+        comment_exclude_layout.addWidget(self.comment_exclude_table)
+        comment_exclude_layout.addWidget(self.comment_exclude_search_input)
+        comment_exclude_layout.addWidget(self.comment_exclude_search_table)
         comment_exclude_title_container.setFixedSize(295, 50)
 
         # 절대 위치로 설정
@@ -1322,6 +1611,137 @@ class MyApp(QMainWindow):
         # 모든 상용구 체크박스들을 전체선택 상태와 동일하게 설정
         for checkbox in self.preset_phrase_checkboxes:
             checkbox.setChecked(is_checked)
+
+    def add_word_to_list(self, list_type):
+        # 단어 입력 다이얼로그 표시
+        from PyQt5.QtWidgets import QInputDialog
+        
+        word, ok = QInputDialog.getText(self, '단어 추가', f'{list_type} 목록에 추가할 단어를 입력하세요:')
+        if ok and word.strip():
+            # 단어 목록에 추가
+            if not hasattr(self, 'word_lists'):
+                self.word_lists = {
+                    'detect': [],
+                    'exclude': [],
+                    'report': [],
+                    'report_exclude': [],
+                    'comment': [],
+                    'comment_exclude': []
+                }
+            
+            self.word_lists[list_type].append(word.strip())
+            self.update_word_list_display(list_type)
+            print(f"'{word}' 단어를 {list_type} 목록에 추가했습니다.")
+
+    def update_word_list_display(self, list_type):
+        # 단어 목록 표시 업데이트
+        from PyQt5.QtWidgets import QTableWidgetItem, QPushButton
+        
+        # 각 섹션별 테이블 매핑
+        table_mapping = {
+            'detect': 'detect_table',
+            'exclude': 'exclude_table',
+            'report': 'report_table',
+            'report_exclude': 'report_exclude_table',
+            'comment': 'comment_table',
+            'comment_exclude': 'comment_exclude_table'
+        }
+        
+        table_name = table_mapping.get(list_type)
+        if table_name and hasattr(self, table_name):
+            table = getattr(self, table_name)
+            table.setRowCount(len(self.word_lists[list_type]))
+            for i, word in enumerate(self.word_lists[list_type]):
+                # 단어 열
+                word_item = QTableWidgetItem(word)
+                table.setItem(i, 0, word_item)
+                
+                # 삭제 버튼 열
+                delete_btn = QPushButton("X")
+                delete_btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #ff4444;
+                        color: white;
+                        border: none;
+                        border-radius: 3px;
+                        padding: 2px 6px;
+                    }
+                    QPushButton:hover {
+                        background-color: #ff6666;
+                    }
+                """)
+                delete_btn.clicked.connect(lambda checked, w=word, lt=list_type: self.delete_word(lt, w))
+                table.setCellWidget(i, 1, delete_btn)
+
+    def search_words(self, list_type):
+        # 단어 검색 기능
+        from PyQt5.QtWidgets import QTableWidgetItem, QPushButton
+        
+        # 각 섹션별 검색 입력과 검색 결과 테이블 매핑
+        search_mapping = {
+            'detect': ('detect_search_input', 'detect_search_table'),
+            'exclude': ('exclude_search_input', 'exclude_search_table'),
+            'report': ('report_search_input', 'report_search_table'),
+            'report_exclude': ('report_exclude_search_input', 'report_exclude_search_table'),
+            'comment': ('comment_search_input', 'comment_search_table'),
+            'comment_exclude': ('comment_exclude_search_input', 'comment_exclude_search_table')
+        }
+        
+        search_input_name, search_table_name = search_mapping.get(list_type, (None, None))
+        if search_input_name and search_table_name and hasattr(self, search_input_name):
+            search_input = getattr(self, search_input_name)
+            search_table = getattr(self, search_table_name)
+            
+            search_text = search_input.text().lower()
+            if not hasattr(self, 'word_lists'):
+                return
+                
+            filtered_words = [word for word in self.word_lists[list_type] 
+                            if search_text in word.lower()]
+            
+            search_table.setRowCount(len(filtered_words))
+            for i, word in enumerate(filtered_words):
+                # 단어 열
+                word_item = QTableWidgetItem(word)
+                search_table.setItem(i, 0, word_item)
+                
+                # 삭제 버튼 열
+                delete_btn = QPushButton("X")
+                delete_btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #ff4444;
+                        color: white;
+                        border: none;
+                        border-radius: 3px;
+                        padding: 2px 6px;
+                    }
+                    QPushButton:hover {
+                        background-color: #ff6666;
+                    }
+                """)
+                delete_btn.clicked.connect(lambda checked, w=word, lt=list_type: self.delete_word(lt, w))
+                search_table.setCellWidget(i, 1, delete_btn)
+
+    def delete_word(self, list_type, word):
+        # 단어 삭제 기능
+        if word in self.word_lists[list_type]:
+            self.word_lists[list_type].remove(word)
+            self.update_word_list_display(list_type)
+            
+            # 검색 결과도 업데이트
+            search_mapping = {
+                'detect': 'detect_search_input',
+                'exclude': 'exclude_search_input',
+                'report': 'report_search_input',
+                'report_exclude': 'report_exclude_search_input',
+                'comment': 'comment_search_input',
+                'comment_exclude': 'comment_exclude_search_input'
+            }
+            
+            search_input_name = search_mapping.get(list_type)
+            if search_input_name and hasattr(self, search_input_name):
+                self.search_words(list_type)
+            print(f"'{word}' 단어를 {list_type} 목록에서 삭제했습니다.")
 
     def setup_tabs(self):
         # 첫 번째 버튼을 선택된 상태로 설정
