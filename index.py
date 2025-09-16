@@ -82,12 +82,49 @@ class MyApp(QMainWindow):
         
         # 일반 버튼들 (탭에서 분리)
         report = QPushButton("알림/신고 목록")
+        report.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
+            }
+        """)
         report.setFixedHeight(40)
         
         proxy = QPushButton("프록시 불러오기")
+        proxy.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
+            }
+        """)
         proxy.setFixedHeight(40)
         
         proxycount = QLabel("0개 불러옴")
+        proxycount.setStyleSheet("""
+            QLabel {
+                font-size: 12px;
+                border: none;
+                padding: 20px;
+                margin-top: 20px;
+                margin-right: 400px;
+            }
+        """)
         proxycount.setFixedHeight(40)
         proxycount.setAlignment(Qt.AlignCenter)
         
@@ -181,15 +218,17 @@ class MyApp(QMainWindow):
         
         # 시작/정지 버튼 스타일 설정
         button_style = """
-            QPushButton {
-                width: 100px;
-                height: 30px;
-                background-color: #0078d4;
-                color: white;
+             QPushButton {
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
                 border-radius: 5px;
-                border: none;
-                font-size: 16px;
-                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
             }
         """
         startbutton.setStyleSheet(button_style)
@@ -198,20 +237,60 @@ class MyApp(QMainWindow):
         # 시작/정지 버튼 위치 설정
         startbutton.setParent(styled_box3)
         stopbutton.setParent(styled_box3)
-        startbutton.resize(100, 30)
-        stopbutton.resize(100, 30)
+        startbutton.resize(125, 30)
+        stopbutton.resize(125, 30)
         startbutton.move(20, 20)
-        stopbutton.move(130, 20)
+        stopbutton.move(155, 20)
 
         # ===== 체크박스들 관련 코드 =====
         checkbutton1 = QCheckBox("자동댓글(알림용)")
+        checkbutton1.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         checkbutton2 = QCheckBox("자동댓글(신고용)")
+        checkbutton2.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         checkbutton3 = QCheckBox("신고활성화")
+        checkbutton3.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         checkbutton4 = QCheckBox("신고활성화(앱)")
+        checkbutton4.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         checkbutton5 = QCheckBox("소리활성화")
+        checkbutton5.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         checkbutton6 = QCheckBox("팝업활성화")
+        checkbutton6.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         checkbutton7 = QCheckBox("텔레그램활성화")
+        checkbutton7.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         checkbutton8 = QCheckBox("프록시활성화")
+        checkbutton8.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        """)
         
         # 체크박스들 위치 설정
         checkbutton1.setParent(styled_box3)
@@ -241,9 +320,7 @@ class MyApp(QMainWindow):
                 font-size: 12px;
                 font-weight: bold;
                 background-color: #f0f8ff;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
+                border: none;
             }
         """)
         tg_apikey_label.setParent(styled_box3)
@@ -257,9 +334,7 @@ class MyApp(QMainWindow):
                 font-size: 12px;
                 font-weight: bold;
                 background-color: #f0f8ff;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
+                border: none;
             }
         """)
         password_label.setParent(styled_box3)
@@ -267,7 +342,7 @@ class MyApp(QMainWindow):
 
         # 텔레그램 API 입력 필드
         tg_apikey_input = QLineEdit()
-        tg_apikey_input.resize(100, 30)
+        tg_apikey_input.resize(90, 30)
         tg_apikey_input.setStyleSheet("""    
             QLineEdit {
                 font-size: 12px;
@@ -282,7 +357,7 @@ class MyApp(QMainWindow):
 
         # ChatID 입력 필드
         password_input = QLineEdit()
-        password_input.resize(100, 30)
+        password_input.resize(90, 30)
         password_input.setStyleSheet("""
             QLineEdit {
                 font-size: 12px;
@@ -297,7 +372,7 @@ class MyApp(QMainWindow):
 
         # 적용 버튼
         tg_apikey_button = QPushButton("적용")
-        tg_apikey_button.resize(40, 30)
+        tg_apikey_button.resize(50, 30)
         tg_apikey_button.setStyleSheet("""
             QPushButton {
                 font-size: 12px;
@@ -306,20 +381,38 @@ class MyApp(QMainWindow):
                 border-radius: 3px;
                 padding: 5px;
             }
+            QPushButton:hover {
+                background-color: #f0f8ff;
+            }
+            QPushButton:pressed {
+                background-color: #e6f3ff;
+                border: 2px solid #0078d4;
+            }
         """)
         tg_apikey_button.setParent(styled_box3)
-        tg_apikey_button.move(110, 230)
+        tg_apikey_button.move(100, 230)
 
         # ChatID 버튼
         password_button = QPushButton("ChatID")
-        password_button.resize(40, 30)
+        password_button.resize(50, 30)
         password_button.setStyleSheet("""
             QPushButton {
                 font-size: 11px;
+                background-color: white;
+                border: 1px solid #0078d4;
+                border-radius: 3px;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #f0f8ff;
+            }
+            QPushButton:pressed {
+                background-color: #e6f3ff;
+                border: 2px solid #0078d4;
             }
         """)
         password_button.setParent(styled_box3)
-        password_button.move(250, 230)
+        password_button.move(240, 230)
 
         # ===== 딜레이/자동댓글 관련 코드 =====
         delay_label = QLabel("딜레이 (초)")
@@ -473,13 +566,11 @@ class MyApp(QMainWindow):
                 font-size: 12px;
                 font-weight: bold;
                 background-color: #f0f8ff;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
+                border: none;
             }
         """)
         preset_phrase_label.setParent(styled_box3)
-        preset_phrase_label.move(10, 310)
+        preset_phrase_label.move(10, 315)
 
         # 추가/삭제 버튼
         preset_phrase_add_button = QPushButton("추가")
@@ -492,6 +583,13 @@ class MyApp(QMainWindow):
                 border: 1px solid #0078d4;
                 border-radius: 3px;
                 padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
             }
         """)
         preset_phrase_add_button.setParent(styled_box3)
@@ -508,11 +606,35 @@ class MyApp(QMainWindow):
                 border-radius: 3px;
                 padding: 5px;
             }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
+            }
         """)
         preset_phrase_delete_button.setParent(styled_box3)
         preset_phrase_delete_button.move(250, 310)
 
 
+
+        # 작성 버튼 스타일 정의
+        write_button_style = """
+            QPushButton {
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 5px;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
+            }
+        """
 
         # 상용구 체크박스들 생성
         preset_phrase_checkallbutton = QCheckBox("전체선택")
@@ -525,6 +647,7 @@ class MyApp(QMainWindow):
         preset_phrase_checkallbutton.setParent(preset_phrase_box)
         preset_phrase_checkallbutton.move(10, 30)
 
+        # 첫 번째 묶음: 안녕하세요 체크박스 + 작성 버튼
         preset_phrase_checkbutton1 = QCheckBox("안녕하세요")
         preset_phrase_checkbutton1.resize(100, 30)
         preset_phrase_checkbutton1.setStyleSheet("""
@@ -535,6 +658,13 @@ class MyApp(QMainWindow):
         preset_phrase_checkbutton1.setParent(preset_phrase_box)
         preset_phrase_checkbutton1.move(10, 60)
 
+        preset_phrase_write_button1 = QPushButton("작성")
+        preset_phrase_write_button1.resize(50, 28)
+        preset_phrase_write_button1.setStyleSheet(write_button_style)
+        preset_phrase_write_button1.setParent(preset_phrase_box)
+        preset_phrase_write_button1.move(210, 61)
+
+        # 두 번째 묶음: ㅋㅋㅋㅋㅋㅋ 체크박스 + 작성 버튼
         preset_phrase_checkbutton2 = QCheckBox("ㅋㅋㅋㅋㅋㅋ")
         preset_phrase_checkbutton2.resize(100, 30)
         preset_phrase_checkbutton2.setStyleSheet("""
@@ -545,6 +675,13 @@ class MyApp(QMainWindow):
         preset_phrase_checkbutton2.setParent(preset_phrase_box)
         preset_phrase_checkbutton2.move(10, 90)
 
+        preset_phrase_write_button2 = QPushButton("작성")
+        preset_phrase_write_button2.resize(50, 28)
+        preset_phrase_write_button2.setStyleSheet(write_button_style)
+        preset_phrase_write_button2.setParent(preset_phrase_box)
+        preset_phrase_write_button2.move(210, 91)
+
+        # 세 번째 묶음: ㅎㅇㅎㅇ 체크박스 + 작성 버튼
         preset_phrase_checkbutton3 = QCheckBox("ㅎㅇㅎㅇ")
         preset_phrase_checkbutton3.resize(100, 30)
         preset_phrase_checkbutton3.setStyleSheet("""
@@ -555,6 +692,13 @@ class MyApp(QMainWindow):
         preset_phrase_checkbutton3.setParent(preset_phrase_box)
         preset_phrase_checkbutton3.move(10, 120)
 
+        preset_phrase_write_button3 = QPushButton("작성")
+        preset_phrase_write_button3.resize(50, 28)
+        preset_phrase_write_button3.setStyleSheet(write_button_style)
+        preset_phrase_write_button3.setParent(preset_phrase_box)
+        preset_phrase_write_button3.move(210, 121)
+
+        # 네 번째 묶음: 아싸~! 체크박스 + 작성 버튼
         preset_phrase_checkbutton4 = QCheckBox("아싸~!")
         preset_phrase_checkbutton4.resize(100, 30)
         preset_phrase_checkbutton4.setStyleSheet("""
@@ -564,6 +708,12 @@ class MyApp(QMainWindow):
         """)
         preset_phrase_checkbutton4.setParent(preset_phrase_box)
         preset_phrase_checkbutton4.move(10, 150)
+
+        preset_phrase_write_button4 = QPushButton("작성")
+        preset_phrase_write_button4.resize(50, 28)
+        preset_phrase_write_button4.setStyleSheet(write_button_style)
+        preset_phrase_write_button4.setParent(preset_phrase_box)
+        preset_phrase_write_button4.move(210, 151)
 
         # 체크박스들을 리스트로 저장 (전체선택 기능을 위해)
         self.preset_phrase_checkboxes = [
@@ -575,44 +725,6 @@ class MyApp(QMainWindow):
         
         # 전체선택 체크박스에 클릭 이벤트 연결
         preset_phrase_checkallbutton.clicked.connect(self.toggle_all_preset_phrases)
-
-
-
-        # 상용구 작성 버튼들 생성
-        write_button_style = """
-            QPushButton {
-                font-size: 12px;
-                background-color: #0078d4;
-                color: white;
-                border: none;
-                border-radius: 3px;
-                padding: 0px;
-            }
-        """
-        
-        preset_phrase_write_button1 = QPushButton("작성")
-        preset_phrase_write_button1.resize(50, 28)
-        preset_phrase_write_button1.setStyleSheet(write_button_style)
-        preset_phrase_write_button1.setParent(preset_phrase_box)
-        preset_phrase_write_button1.move(210, 61)
-        
-        preset_phrase_write_button2 = QPushButton("작성")
-        preset_phrase_write_button2.resize(50, 28)
-        preset_phrase_write_button2.setStyleSheet(write_button_style)
-        preset_phrase_write_button2.setParent(preset_phrase_box)
-        preset_phrase_write_button2.move(210, 91)
-        
-        preset_phrase_write_button3 = QPushButton("작성")
-        preset_phrase_write_button3.resize(50, 28)
-        preset_phrase_write_button3.setStyleSheet(write_button_style)
-        preset_phrase_write_button3.setParent(preset_phrase_box)
-        preset_phrase_write_button3.move(210, 121)
-        
-        preset_phrase_write_button4 = QPushButton("작성")
-        preset_phrase_write_button4.resize(50, 28)
-        preset_phrase_write_button4.setStyleSheet(write_button_style)
-        preset_phrase_write_button4.setParent(preset_phrase_box)
-        preset_phrase_write_button4.move(210, 151)
         
 
 
@@ -704,75 +816,249 @@ class MyApp(QMainWindow):
             }
         """)
         
+        # 제목과 버튼을 담을 컨테이너 위젯
+        title_container = QWidget()
+        title_container.setParent(detect_words_container)
+        title_container.move(0, 0)
+        title_container.resize(295, 50)
+        
         # 왼쪽 제목 - 일반감지 단어목록
         detect_title = QLabel("일반감지 단어목록")
-        detect_title.setAlignment(Qt.AlignCenter)
+        detect_title.setParent(title_container)
+        detect_title.move(10, 10)
+        detect_title.resize(200, 30)
         detect_title.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 color: #0078d4;
                 font-weight: bold;
-                margin-bottom: 10px;
             }
         """)
         
+        # 일반감지 단어목록 추가 버튼
+        detect_add_button = QPushButton("추가")
+        detect_add_button.setParent(title_container)
+        detect_add_button.move(220, 12)
+        detect_add_button.resize(50, 25)
+        detect_add_button.setStyleSheet("""
+            QPushButton {
+                font-size: 11px;
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 3px;
+                padding: 2px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
+            }
+        """)
+        
+        # 일반감지 단어제외목록 컨테이너
+        exclude_title_container = QWidget()
+        exclude_title_container.setParent(exclude_words_container)
+        exclude_title_container.move(0, 0)
+        exclude_title_container.resize(300, 50)
+        
         # 오른쪽 제목 - 일반감지 단어제외목록
         exclude_title = QLabel("일반감지 단어제외목록")
-        exclude_title.setAlignment(Qt.AlignCenter)
+        exclude_title.setParent(exclude_title_container)
+        exclude_title.move(10, 10)
+        exclude_title.resize(200, 30)
         exclude_title.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 color: #e74c3c;
                 font-weight: bold;
-                margin-bottom: 10px;
             }
         """)
         
+        # 일반감지 단어제외목록 추가 버튼
+        exclude_add_button = QPushButton("추가")
+        exclude_add_button.setParent(exclude_title_container)
+        exclude_add_button.move(220, 12)
+        exclude_add_button.resize(50, 25)
+        exclude_add_button.setStyleSheet("""
+            QPushButton {
+                font-size: 11px;
+                background-color: #f0f8ff;
+                border: 1px solid #e74c3c;
+                border-radius: 3px;
+                padding: 2px;
+            }
+            QPushButton:hover {
+                background-color: #ffe6e6;
+            }
+            QPushButton:pressed {
+                background-color: #ffcccc;
+                border: 2px solid #e74c3c;
+            }
+        """)
+        
+        # 신고감지 단어목록 컨테이너
+        report_title_container = QWidget()
+        report_title_container.setParent(report_words_container)
+        report_title_container.move(0, 0)
+        report_title_container.resize(295, 50)
+        
         # 신고감지 단어목록 제목
         report_title = QLabel("신고감지 단어목록")
-        report_title.setAlignment(Qt.AlignCenter)
+        report_title.setParent(report_title_container)
+        report_title.move(10, 10)
+        report_title.resize(200, 30)
         report_title.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 color: #8e44ad;
                 font-weight: bold;
-                margin-bottom: 10px;
             }
         """)
         
+        # 신고감지 단어목록 추가 버튼
+        report_add_button = QPushButton("추가")
+        report_add_button.setParent(report_title_container)
+        report_add_button.move(220, 12)
+        report_add_button.resize(50, 25)
+        report_add_button.setStyleSheet("""
+            QPushButton {
+                font-size: 11px;
+                background-color: #f0f8ff;
+                border: 1px solid #8e44ad;
+                border-radius: 3px;
+                padding: 2px;
+            }
+            QPushButton:hover {
+                background-color: #f0e6ff;
+            }
+            QPushButton:pressed {
+                background-color: #e6ccff;
+                border: 2px solid #8e44ad;
+            }
+        """)
+        
+        # 신고감지 제외목록 컨테이너
+        report_exclude_title_container = QWidget()
+        report_exclude_title_container.setParent(report_exclude_container)
+        report_exclude_title_container.move(0, 0)
+        report_exclude_title_container.resize(295, 50)
+        
         # 신고감지 제외목록 제목
         report_exclude_title = QLabel("신고감지 제외목록")
-        report_exclude_title.setAlignment(Qt.AlignCenter)
+        report_exclude_title.setParent(report_exclude_title_container)
+        report_exclude_title.move(10, 10)
+        report_exclude_title.resize(200, 30)
         report_exclude_title.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 color: #c0392b;
                 font-weight: bold;
-                margin-bottom: 10px;
             }
         """)
         
+        # 신고감지 제외목록 추가 버튼
+        report_exclude_add_button = QPushButton("추가")
+        report_exclude_add_button.setParent(report_exclude_title_container)
+        report_exclude_add_button.move(220, 12)
+        report_exclude_add_button.resize(50, 25)
+        report_exclude_add_button.setStyleSheet("""
+            QPushButton {
+                font-size: 11px;
+                background-color: #f0f8ff;
+                border: 1px solid #c0392b;
+                border-radius: 3px;
+                padding: 2px;
+            }
+            QPushButton:hover {
+                background-color: #ffe6e6;
+            }
+            QPushButton:pressed {
+                background-color: #ffcccc;
+                border: 2px solid #c0392b;
+            }
+        """)
+        
+        # 자동댓글 단어목록 컨테이너
+        comment_title_container = QWidget()
+        comment_title_container.setParent(comment_words_container)
+        comment_title_container.move(0, 0)
+        comment_title_container.resize(295, 50)
+        
         # 자동댓글 단어목록 제목
         comment_title = QLabel("자동댓글 단어목록")
-        comment_title.setAlignment(Qt.AlignCenter)
+        comment_title.setParent(comment_title_container)
+        comment_title.move(10, 10)
+        comment_title.resize(200, 30)
         comment_title.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 color: #27ae60;
                 font-weight: bold;
-                margin-bottom: 10px;
             }
         """)
         
+        # 자동댓글 단어목록 추가 버튼
+        comment_add_button = QPushButton("추가")
+        comment_add_button.setParent(comment_title_container)
+        comment_add_button.move(220, 12)
+        comment_add_button.resize(50, 25)
+        comment_add_button.setStyleSheet("""
+            QPushButton {
+                font-size: 11px;
+                background-color: #f0f8ff;
+                border: 1px solid #27ae60;
+                border-radius: 3px;
+                padding: 2px;
+            }
+            QPushButton:hover {
+                background-color: #e6f7e6;
+            }
+            QPushButton:pressed {
+                background-color: #ccffcc;
+                border: 2px solid #27ae60;
+            }
+        """)
+        
+        # 자동댓글 제외목록 컨테이너
+        comment_exclude_title_container = QWidget()
+        comment_exclude_title_container.setParent(comment_exclude_container)
+        comment_exclude_title_container.move(0, 0)
+        comment_exclude_title_container.resize(295, 50)
+        
         # 자동댓글 제외목록 제목
         comment_exclude_title = QLabel("자동댓글 제외목록")
-        comment_exclude_title.setAlignment(Qt.AlignCenter)
+        comment_exclude_title.setParent(comment_exclude_title_container)
+        comment_exclude_title.move(10, 10)
+        comment_exclude_title.resize(200, 30)
         comment_exclude_title.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 color: #d35400;
                 font-weight: bold;
-                margin-bottom: 10px;
+            }
+        """)
+        
+        # 자동댓글 제외목록 추가 버튼
+        comment_exclude_add_button = QPushButton("추가")
+        comment_exclude_add_button.setParent(comment_exclude_title_container)
+        comment_exclude_add_button.move(220, 12)
+        comment_exclude_add_button.resize(50, 25)
+        comment_exclude_add_button.setStyleSheet("""
+            QPushButton {
+                font-size: 11px;
+                background-color: #f0f8ff;
+                border: 1px solid #d35400;
+                border-radius: 3px;
+                padding: 2px;
+            }
+            QPushButton:hover {
+                background-color: #fff0e6;
+            }
+            QPushButton:pressed {
+                background-color: #ffe6cc;
+                border: 2px solid #d35400;
             }
         """)
         
@@ -924,34 +1210,34 @@ class MyApp(QMainWindow):
         
         # 각 박스 내부 레이아웃 설정
         detect_left_layout = QVBoxLayout(detect_words_container)
-        detect_left_layout.addWidget(detect_title)
+        detect_left_layout.addWidget(title_container)
         detect_left_layout.addWidget(detect_words_label)
-        detect_title.setFixedSize(280, 50)
+        title_container.setFixedSize(295, 50)
         
         exclude_right_layout = QVBoxLayout(exclude_words_container)
-        exclude_right_layout.addWidget(exclude_title)
+        exclude_right_layout.addWidget(exclude_title_container)
         exclude_right_layout.addWidget(exclude_words_label)
-        exclude_title.setFixedSize(280, 50)
+        exclude_title_container.setFixedSize(300, 50)
         
         report_left_layout = QVBoxLayout(report_words_container)
-        report_left_layout.addWidget(report_title)
+        report_left_layout.addWidget(report_title_container)
         report_left_layout.addWidget(report_words_label)
-        report_title.setFixedSize(280, 50)
+        report_title_container.setFixedSize(295, 50)
         
         report_exclude_layout = QVBoxLayout(report_exclude_container)
-        report_exclude_layout.addWidget(report_exclude_title)
+        report_exclude_layout.addWidget(report_exclude_title_container)
         report_exclude_layout.addWidget(report_exclude_label)
-        report_exclude_title.setFixedSize(280, 50)
+        report_exclude_title_container.setFixedSize(295, 50)
         
         comment_left_layout = QVBoxLayout(comment_words_container)
-        comment_left_layout.addWidget(comment_title)
+        comment_left_layout.addWidget(comment_title_container)
         comment_left_layout.addWidget(comment_words_label)
-        comment_title.setFixedSize(280, 50)
+        comment_title_container.setFixedSize(295, 50)
         
         comment_exclude_layout = QVBoxLayout(comment_exclude_container)
-        comment_exclude_layout.addWidget(comment_exclude_title)
+        comment_exclude_layout.addWidget(comment_exclude_title_container)
         comment_exclude_layout.addWidget(comment_exclude_label)
-        comment_exclude_title.setFixedSize(280, 50)
+        comment_exclude_title_container.setFixedSize(295, 50)
 
         # 절대 위치로 설정
         detect_main_container.setParent(detect_content)
