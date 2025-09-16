@@ -131,13 +131,15 @@ class MyApp(QMainWindow):
         banlist = QLabel('차단 목록')
         banlist.setStyleSheet("""
             QLabel {
-                margin-left: 400px;
+                margin-left: 635px;
+                font-weight: bold;
             }
         """)
         reportlist = QLabel('신고 계정 목록 / 댓글 계정 목록')
         reportlist.setStyleSheet("""
             QLabel {
-                margin-left: 70px;
+                margin-left: 700px;
+                font-weight: bold;
             }
         """)
 
@@ -173,25 +175,12 @@ class MyApp(QMainWindow):
 
 
         
-        # 모든 요소를 절대 배치로 설정 (레이아웃 제거)
-        
+        # ===== 시작/정지 버튼 관련 코드 =====
         startbutton = QPushButton("시작")
         stopbutton = QPushButton("정지")
-
-        startbutton.setStyleSheet("""
-            QPushButton {
-                width: 100px;
-                height: 30px;
-                background-color: #0078d4;
-                color: white;
-                border-radius: 5px;
-                border: none;
-                font-size: 16px;
-                font-weight: bold;
-            }
-        """)
         
-        stopbutton.setStyleSheet("""
+        # 시작/정지 버튼 스타일 설정
+        button_style = """
             QPushButton {
                 width: 100px;
                 height: 30px;
@@ -202,9 +191,19 @@ class MyApp(QMainWindow):
                 font-size: 16px;
                 font-weight: bold;
             }
-        """)
+        """
+        startbutton.setStyleSheet(button_style)
+        stopbutton.setStyleSheet(button_style)
+        
+        # 시작/정지 버튼 위치 설정
+        startbutton.setParent(styled_box3)
+        stopbutton.setParent(styled_box3)
+        startbutton.resize(100, 30)
+        stopbutton.resize(100, 30)
+        startbutton.move(20, 20)
+        stopbutton.move(130, 20)
 
-        # 체크박스들 생성
+        # ===== 체크박스들 관련 코드 =====
         checkbutton1 = QCheckBox("자동댓글(알림용)")
         checkbutton2 = QCheckBox("자동댓글(신고용)")
         checkbutton3 = QCheckBox("신고활성화")
@@ -213,92 +212,6 @@ class MyApp(QMainWindow):
         checkbutton6 = QCheckBox("팝업활성화")
         checkbutton7 = QCheckBox("텔레그램활성화")
         checkbutton8 = QCheckBox("프록시활성화")
-
-
-        
-        tg_apikey_label = QLabel("텔레그램 API KEY")
-        tg_apikey_label.resize(139, 30)  # 크기 직접 설정
-        tg_apikey_label.setStyleSheet("""    
-            QLabel {
-                font-size: 12px;
-                font-weight: bold;
-                background-color: #f0f8ff;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
-            }
-        """)
-
-        password_label = QLabel("암호 변경")
-        password_label.resize(139, 30)  # 크기 직접 설정
-        password_label.setStyleSheet("""
-            QLabel {
-                font-size: 12px;
-                font-weight: bold;
-                background-color: #f0f8ff;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
-            }
-        """)
-
-
-
-        tg_apikey_input = QLineEdit()
-        tg_apikey_input.resize(100, 30)
-        tg_apikey_input.setStyleSheet("""    
-            QLineEdit {
-                font-size: 12px;
-                background-color: white;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
-            }
-        """)
-
-        tg_apikey_button = QPushButton("적용")
-        tg_apikey_button.resize(40, 30)
-        tg_apikey_button.setStyleSheet("""
-            QPushButton {
-                font-size: 12px;
-                background-color: white;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
-            }
-        """)
-        tg_apikey_button.setParent(styled_box3)
-        tg_apikey_button.move(20, 260)
-
-        password_input = QLineEdit()
-        password_input.resize(100, 30)
-        password_input.setStyleSheet("""
-            QLineEdit {
-                font-size: 12px;
-                background-color: white;
-                border: 1px solid #0078d4;
-                border-radius: 3px;
-                padding: 5px;
-            }
-        """)
-
-        password_button = QPushButton("ChatID")
-        password_button.resize(40, 30)
-        password_button.setStyleSheet("""
-            QPushButton {
-                font-size: 11px;
-            }
-        """)
-        password_button.setParent(styled_box3)
-        password_button.move(150, 260)
-
-        # 모든 요소를 styled_box3에 추가하고 절대 위치 설정
-        startbutton.setParent(styled_box3)
-        stopbutton.setParent(styled_box3)
-        startbutton.resize(100, 30)
-        stopbutton.resize(100, 30)
-        startbutton.move(20, 20)  # 버튼 위치
-        stopbutton.move(130, 20)
         
         # 체크박스들 위치 설정
         checkbutton1.setParent(styled_box3)
@@ -317,107 +230,100 @@ class MyApp(QMainWindow):
         checkbutton7.move(20, 160)
         checkbutton8.setParent(styled_box3)
         checkbutton8.move(150, 160)
-        
-        # 라벨과 입력필드 위치 설정
+
+
+        # ===== 텔레그램 API 관련 코드 =====
+        # 텔레그램 API 라벨
+        tg_apikey_label = QLabel("텔레그램 API KEY")
+        tg_apikey_label.resize(139, 30)
+        tg_apikey_label.setStyleSheet("""    
+            QLabel {
+                font-size: 12px;
+                font-weight: bold;
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 3px;
+                padding: 5px;
+            }
+        """)
         tg_apikey_label.setParent(styled_box3)
-        password_label.setParent(styled_box3)
         tg_apikey_label.move(10, 200)
+
+        # ChatID 라벨
+        password_label = QLabel("암호 변경")
+        password_label.resize(139, 30)
+        password_label.setStyleSheet("""
+            QLabel {
+                font-size: 12px;
+                font-weight: bold;
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 3px;
+                padding: 5px;
+            }
+        """)
+        password_label.setParent(styled_box3)
         password_label.move(150, 200)
 
+        # 텔레그램 API 입력 필드
+        tg_apikey_input = QLineEdit()
+        tg_apikey_input.resize(100, 30)
+        tg_apikey_input.setStyleSheet("""    
+            QLineEdit {
+                font-size: 12px;
+                background-color: white;
+                border: 1px solid #0078d4;
+                border-radius: 3px;
+                padding: 5px;
+            }
+        """)
         tg_apikey_input.setParent(styled_box3)
-        password_input.setParent(styled_box3)
         tg_apikey_input.move(10, 230)
+
+        # ChatID 입력 필드
+        password_input = QLineEdit()
+        password_input.resize(100, 30)
+        password_input.setStyleSheet("""
+            QLineEdit {
+                font-size: 12px;
+                background-color: white;
+                border: 1px solid #0078d4;
+                border-radius: 3px;
+                padding: 5px;
+            }
+        """)
+        password_input.setParent(styled_box3)
         password_input.move(150, 230)
 
+        # 적용 버튼
+        tg_apikey_button = QPushButton("적용")
+        tg_apikey_button.resize(40, 30)
+        tg_apikey_button.setStyleSheet("""
+            QPushButton {
+                font-size: 12px;
+                background-color: white;
+                border: 1px solid #0078d4;
+                border-radius: 3px;
+                padding: 5px;
+            }
+        """)
         tg_apikey_button.setParent(styled_box3)
-        password_button.setParent(styled_box3)
         tg_apikey_button.move(110, 230)
+
+        # ChatID 버튼
+        password_button = QPushButton("ChatID")
+        password_button.resize(40, 30)
+        password_button.setStyleSheet("""
+            QPushButton {
+                font-size: 11px;
+            }
+        """)
+        password_button.setParent(styled_box3)
         password_button.move(250, 230)
 
-
-        # 스타일 박스를 윈도우에 추가하고 위치 설정
-        styled_box3.setParent(self)
-        styled_box3.move(10, 130)  # 위치 설정 (10px 이동)
-        styled_box3.resize(300, 800)  # 크기 설정
-        
-        # styled_box3를 참조용으로 저장
-        self.styled_box3 = styled_box3
-
-
-        styled_box4 = QWidget()
-        styled_box4.setStyleSheet("""
-            QWidget {
-                border: 2px solid #0078d4;
-                border-radius: 5px;
-                background-color: #f0f8ff;
-                padding: 10px;
-            }
-        """)
-
-
-
-
-
-
-        styled_layout4 = QHBoxLayout()
-        styled_box4.setLayout(styled_layout4)
-
-
-        # 스타일 박스를 윈도우에 추가하고 위치 설정
-        styled_box4.setParent(self)
-        styled_box4.move(310, 130)  # 위치 설정 (10px 이동)
-        styled_box4.resize(400, 800)  # 크기 설정
-        
-        # styled_box4를 참조용으로 저장 (탭 전환시 숨기기 위해)
-        self.styled_box4 = styled_box4
-
-
-        styled_box5 = QWidget()
-        styled_box5.setStyleSheet("""
-            QWidget {
-                border: 2px solid #0078d4;
-                border-radius: 5px;
-                background-color: #f0f8ff;
-                padding: 10px;
-            }
-        """)
-
-
-        styled_layout5 = QHBoxLayout()
-        styled_box5.setLayout(styled_layout5)
-
-
-        # 스타일 박스를 윈도우에 추가하고 위치 설정
-        styled_box5.setParent(self)
-        styled_box5.move(710, 130)  # 위치 설정 (10px 이동)
-        styled_box5.resize(1080, 400)  # 크기 설정
-        
-        # styled_box5를 참조용으로 저장
-        self.styled_box5 = styled_box5
-
-
-
-
-
-        styled_box6 = QWidget()
-        styled_box6.setStyleSheet("""
-            QWidget {
-                border: 2px solid #0078d4;
-                border-radius: 5px;
-                background-color: #f0f8ff;
-                padding: 10px;
-            }
-        """)
-
-
-        styled_layout6 = QHBoxLayout()
-        styled_box6.setLayout(styled_layout6)
-
-
-
-
+        # ===== 딜레이/자동댓글 관련 코드 =====
         delay_label = QLabel("딜레이 (초)")
-        delay_label.resize(90, 30)  # 크기 직접 설정
+        delay_label.resize(90, 30)
         delay_label.setStyleSheet("""    
             QLabel {
                 font-size: 12px;
@@ -428,9 +334,11 @@ class MyApp(QMainWindow):
                 padding: 5px;
             }
         """)
+        delay_label.setParent(styled_box3)
+        delay_label.move(10, 265)
 
         auto_comment_label = QLabel("자동댓글수")
-        auto_comment_label.resize(90, 30)  # 크기 직접 설정
+        auto_comment_label.resize(90, 30)
         auto_comment_label.setStyleSheet("""
             QLabel {
                 font-size: 12px;
@@ -441,6 +349,8 @@ class MyApp(QMainWindow):
                 padding: 5px;
             }
         """)
+        auto_comment_label.setParent(styled_box3)
+        auto_comment_label.move(150, 265)
 
         delay_input = QLineEdit()
         delay_input.resize(50, 30)
@@ -453,6 +363,8 @@ class MyApp(QMainWindow):
                 padding: 5px;
             }
         """)
+        delay_input.setParent(styled_box3)
+        delay_input.move(100, 265)
         
         auto_comment_input = QLineEdit()
         auto_comment_input.resize(50, 30)
@@ -465,21 +377,80 @@ class MyApp(QMainWindow):
                 padding: 5px;
             }
         """)
-
-        delay_label.setParent(styled_box3)
-        auto_comment_label.setParent(styled_box3)
-        delay_input.setParent(styled_box3)
         auto_comment_input.setParent(styled_box3)
-        delay_label.move(10, 265)
-        delay_input.move(100, 265)
-        auto_comment_label.move(150, 265)
         auto_comment_input.move(240, 265)
 
 
+        # ===== 박스 레이아웃 관련 코드 =====
+        # styled_box3 (왼쪽 컨트롤 박스) 설정
+        styled_box3.setParent(self)
+        styled_box3.move(10, 130)
+        styled_box3.resize(300, 800)
+        self.styled_box3 = styled_box3
+
+
+        # styled_box4 (차단 목록 박스) 설정
+        styled_box4 = QWidget()
+        styled_box4.setStyleSheet("""
+            QWidget {
+                border: 2px solid #0078d4;
+                border-radius: 5px;
+                background-color: #f0f8ff;
+                padding: 10px;
+            }
+        """)
+        styled_layout4 = QHBoxLayout()
+        styled_box4.setLayout(styled_layout4)
+        styled_box4.setParent(self)
+        styled_box4.move(310, 130)
+        styled_box4.resize(400, 800)
+        self.styled_box4 = styled_box4
+
+
+        # styled_box5 (신고 계정 목록 박스) 설정
+        styled_box5 = QWidget()
+        styled_box5.setStyleSheet("""
+            QWidget {
+                border: 2px solid #0078d4;
+                border-radius: 5px;
+                background-color: #f0f8ff;
+                padding: 10px;
+            }
+        """)
+        styled_layout5 = QHBoxLayout()
+        styled_box5.setLayout(styled_layout5)
+        styled_box5.setParent(self)
+        styled_box5.move(710, 130)
+        styled_box5.resize(1080, 400)
+        self.styled_box5 = styled_box5
 
 
 
 
+
+        # styled_box6 (하단 박스) 설정
+        styled_box6 = QWidget()
+        styled_box6.setStyleSheet("""
+            QWidget {
+                border: 2px solid #0078d4;
+                border-radius: 5px;
+                background-color: #f0f8ff;
+                padding: 10px;
+            }
+        """)
+        styled_layout6 = QHBoxLayout()
+        styled_box6.setLayout(styled_layout6)
+
+
+
+
+
+
+
+
+
+
+        # ===== 상용구 관련 코드 =====
         # 상용구 박스 생성
         preset_phrase_box = QWidget()
         preset_phrase_box.setStyleSheet("""
@@ -494,8 +465,9 @@ class MyApp(QMainWindow):
         preset_phrase_box.move(10, 345)
         preset_phrase_box.resize(280, 450)
 
+        # 상용구 라벨
         preset_phrase_label = QLabel("상용구")
-        preset_phrase_label.resize(90, 30)  # 크기 직접 설젱
+        preset_phrase_label.resize(90, 30)
         preset_phrase_label.setStyleSheet("""
             QLabel {
                 font-size: 12px;
@@ -509,10 +481,9 @@ class MyApp(QMainWindow):
         preset_phrase_label.setParent(styled_box3)
         preset_phrase_label.move(10, 310)
 
-
-
+        # 추가/삭제 버튼
         preset_phrase_add_button = QPushButton("추가")
-        preset_phrase_add_button.resize(40, 30)  # 크기 직접 설젱
+        preset_phrase_add_button.resize(40, 30)
         preset_phrase_add_button.setStyleSheet("""
             QPushButton {
                 font-size: 12px;
@@ -526,9 +497,8 @@ class MyApp(QMainWindow):
         preset_phrase_add_button.setParent(styled_box3)
         preset_phrase_add_button.move(210, 310)
 
-
         preset_phrase_delete_button = QPushButton("삭제")
-        preset_phrase_delete_button.resize(40, 30)  # 크기 직접 설젱
+        preset_phrase_delete_button.resize(40, 30)
         preset_phrase_delete_button.setStyleSheet("""
             QPushButton {
                 font-size: 12px;
@@ -544,7 +514,7 @@ class MyApp(QMainWindow):
 
 
 
-        # 체크박스들 생성
+        # 상용구 체크박스들 생성
         preset_phrase_checkallbutton = QCheckBox("전체선택")
         preset_phrase_checkallbutton.resize(100, 30)
         preset_phrase_checkallbutton.setStyleSheet("""
@@ -552,13 +522,19 @@ class MyApp(QMainWindow):
                 padding: 2px;
             }
         """)
-        preset_phrase_checkbutton1   = QCheckBox("안녕하세요")
+        preset_phrase_checkallbutton.setParent(preset_phrase_box)
+        preset_phrase_checkallbutton.move(10, 30)
+
+        preset_phrase_checkbutton1 = QCheckBox("안녕하세요")
         preset_phrase_checkbutton1.resize(100, 30)
         preset_phrase_checkbutton1.setStyleSheet("""
             QCheckBox {
                 padding: 2px;
             }
         """)
+        preset_phrase_checkbutton1.setParent(preset_phrase_box)
+        preset_phrase_checkbutton1.move(10, 60)
+
         preset_phrase_checkbutton2 = QCheckBox("ㅋㅋㅋㅋㅋㅋ")
         preset_phrase_checkbutton2.resize(100, 30)
         preset_phrase_checkbutton2.setStyleSheet("""
@@ -566,6 +542,9 @@ class MyApp(QMainWindow):
                 padding: 2px;
             }
         """)
+        preset_phrase_checkbutton2.setParent(preset_phrase_box)
+        preset_phrase_checkbutton2.move(10, 90)
+
         preset_phrase_checkbutton3 = QCheckBox("ㅎㅇㅎㅇ")
         preset_phrase_checkbutton3.resize(100, 30)
         preset_phrase_checkbutton3.setStyleSheet("""
@@ -573,6 +552,9 @@ class MyApp(QMainWindow):
                 padding: 2px;
             }
         """)
+        preset_phrase_checkbutton3.setParent(preset_phrase_box)
+        preset_phrase_checkbutton3.move(10, 120)
+
         preset_phrase_checkbutton4 = QCheckBox("아싸~!")
         preset_phrase_checkbutton4.resize(100, 30)
         preset_phrase_checkbutton4.setStyleSheet("""
@@ -580,6 +562,8 @@ class MyApp(QMainWindow):
                 padding: 2px;
             }
         """)
+        preset_phrase_checkbutton4.setParent(preset_phrase_box)
+        preset_phrase_checkbutton4.move(10, 150)
 
         # 체크박스들을 리스트로 저장 (전체선택 기능을 위해)
         self.preset_phrase_checkboxes = [
@@ -591,92 +575,50 @@ class MyApp(QMainWindow):
         
         # 전체선택 체크박스에 클릭 이벤트 연결
         preset_phrase_checkallbutton.clicked.connect(self.toggle_all_preset_phrases)
-        
-        preset_phrase_checkallbutton.setParent(preset_phrase_box)
-        preset_phrase_checkallbutton.move(10, 30)
-        preset_phrase_checkbutton1.setParent(preset_phrase_box)
-        preset_phrase_checkbutton1.move(10, 60)
-        preset_phrase_checkbutton2.setParent(preset_phrase_box)
-        preset_phrase_checkbutton2.move(10, 90)
-        preset_phrase_checkbutton3.setParent(preset_phrase_box)
-        preset_phrase_checkbutton3.move(10, 120)
-        preset_phrase_checkbutton4.setParent(preset_phrase_box)
-        preset_phrase_checkbutton4.move(10, 150)
 
 
 
-        # 체크박스들 작성버튼
+        # 상용구 작성 버튼들 생성
+        write_button_style = """
+            QPushButton {
+                font-size: 12px;
+                background-color: #0078d4;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                padding: 0px;
+            }
+        """
         
         preset_phrase_write_button1 = QPushButton("작성")
         preset_phrase_write_button1.resize(50, 28)
-        preset_phrase_write_button1.setStyleSheet("""
-            QPushButton {
-                font-size: 12px;
-                background-color: #0078d4;
-                color: white;
-                border: none;
-                border-radius: 3px;
-                padding: 0px;
-            }
-        """)
+        preset_phrase_write_button1.setStyleSheet(write_button_style)
+        preset_phrase_write_button1.setParent(preset_phrase_box)
+        preset_phrase_write_button1.move(210, 61)
         
         preset_phrase_write_button2 = QPushButton("작성")
         preset_phrase_write_button2.resize(50, 28)
-        preset_phrase_write_button2.setStyleSheet("""
-            QPushButton {
-                font-size: 12px;
-                background-color: #0078d4;
-                color: white;
-                border: none;
-                border-radius: 3px;
-                padding: 0px;
-            }
-        """)
+        preset_phrase_write_button2.setStyleSheet(write_button_style)
+        preset_phrase_write_button2.setParent(preset_phrase_box)
+        preset_phrase_write_button2.move(210, 91)
         
         preset_phrase_write_button3 = QPushButton("작성")
         preset_phrase_write_button3.resize(50, 28)
-        preset_phrase_write_button3.setStyleSheet("""
-            QPushButton {
-                font-size: 12px;
-                background-color: #0078d4;
-                color: white;
-                border: none;
-                border-radius: 3px;
-                padding: 0px;
-            }
-        """)
+        preset_phrase_write_button3.setStyleSheet(write_button_style)
+        preset_phrase_write_button3.setParent(preset_phrase_box)
+        preset_phrase_write_button3.move(210, 121)
         
         preset_phrase_write_button4 = QPushButton("작성")
         preset_phrase_write_button4.resize(50, 28)
-        preset_phrase_write_button4.setStyleSheet("""
-            QPushButton {
-                font-size: 12px;
-                background-color: #0078d4;
-                color: white;
-                border: none;
-                border-radius: 3px;
-                padding: 0px;
-            }
-        """)
-               
-
-        preset_phrase_write_button1.setParent(preset_phrase_box)
-        preset_phrase_write_button1.move(210, 61)
-        preset_phrase_write_button2.setParent(preset_phrase_box)
-        preset_phrase_write_button2.move(210, 91)
-        preset_phrase_write_button3.setParent(preset_phrase_box)
-        preset_phrase_write_button3.move(210, 121)
+        preset_phrase_write_button4.setStyleSheet(write_button_style)
         preset_phrase_write_button4.setParent(preset_phrase_box)
         preset_phrase_write_button4.move(210, 151)
         
 
 
-        # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box6.setParent(self)
-        styled_box6.move(710, 530)  # 위치 설정 (10px 이동)
-        styled_box6.resize(1080, 400)  # 크기 설정
-        
-        # styled_box6를 참조용으로 저장
+        styled_box6.move(710, 530)
+        styled_box6.resize(1080, 400)
         self.styled_box6 = styled_box6
 
 
@@ -965,12 +907,12 @@ class MyApp(QMainWindow):
         comment_exclude_container.setParent(detect_main_container)
         
         # 1행 6열로 박스들 위치 조정
-        detect_words_container.move(10, 20)      # (1,1)
+        detect_words_container.move(9, 20)      # (1,1)
         exclude_words_container.move(305, 20)    # (1,2)
-        report_words_container.move(605, 20)     # (1,3)
-        report_exclude_container.move(900, 20)   # (1,4)
-        comment_words_container.move(1195, 20)   # (1,5)
-        comment_exclude_container.move(1490, 20) # (1,6)
+        report_words_container.move(606, 20)     # (1,3)
+        report_exclude_container.move(902, 20)   # (1,4)
+        comment_words_container.move(1198, 20)   # (1,5)
+        comment_exclude_container.move(1494, 20) # (1,6)
         
         # 위젯 크기 고정 (각 박스 250x750)
         detect_words_container.setFixedSize(295, 850)
@@ -984,32 +926,32 @@ class MyApp(QMainWindow):
         detect_left_layout = QVBoxLayout(detect_words_container)
         detect_left_layout.addWidget(detect_title)
         detect_left_layout.addWidget(detect_words_label)
-        detect_title.setFixedSize(230, 50)
+        detect_title.setFixedSize(280, 50)
         
         exclude_right_layout = QVBoxLayout(exclude_words_container)
         exclude_right_layout.addWidget(exclude_title)
         exclude_right_layout.addWidget(exclude_words_label)
-        exclude_title.setFixedSize(230, 50)
+        exclude_title.setFixedSize(280, 50)
         
         report_left_layout = QVBoxLayout(report_words_container)
         report_left_layout.addWidget(report_title)
         report_left_layout.addWidget(report_words_label)
-        report_title.setFixedSize(230, 50)
+        report_title.setFixedSize(280, 50)
         
         report_exclude_layout = QVBoxLayout(report_exclude_container)
         report_exclude_layout.addWidget(report_exclude_title)
         report_exclude_layout.addWidget(report_exclude_label)
-        report_exclude_title.setFixedSize(230, 50)
+        report_exclude_title.setFixedSize(280, 50)
         
         comment_left_layout = QVBoxLayout(comment_words_container)
         comment_left_layout.addWidget(comment_title)
         comment_left_layout.addWidget(comment_words_label)
-        comment_title.setFixedSize(230, 50)
+        comment_title.setFixedSize(280, 50)
         
         comment_exclude_layout = QVBoxLayout(comment_exclude_container)
         comment_exclude_layout.addWidget(comment_exclude_title)
         comment_exclude_layout.addWidget(comment_exclude_label)
-        comment_exclude_title.setFixedSize(230, 50)
+        comment_exclude_title.setFixedSize(280, 50)
 
         # 절대 위치로 설정
         detect_main_container.setParent(detect_content)
