@@ -581,6 +581,17 @@ class MyApp(QMainWindow):
             }
         """)
 
+        # 체크박스들을 리스트로 저장 (전체선택 기능을 위해)
+        self.preset_phrase_checkboxes = [
+            preset_phrase_checkbutton1,
+            preset_phrase_checkbutton2,
+            preset_phrase_checkbutton3,
+            preset_phrase_checkbutton4
+        ]
+        
+        # 전체선택 체크박스에 클릭 이벤트 연결
+        preset_phrase_checkallbutton.clicked.connect(self.toggle_all_preset_phrases)
+        
         preset_phrase_checkallbutton.setParent(preset_phrase_box)
         preset_phrase_checkallbutton.move(10, 30)
         preset_phrase_checkbutton1.setParent(preset_phrase_box)
@@ -1074,6 +1085,15 @@ class MyApp(QMainWindow):
             for box_name in ['styled_box2', 'styled_box3', 'styled_box5', 'styled_box6']:
                 if hasattr(self, box_name):
                     getattr(self, box_name).hide()
+
+    def toggle_all_preset_phrases(self):
+        # 전체선택 체크박스의 상태를 확인
+        sender = self.sender()
+        is_checked = sender.isChecked()
+        
+        # 모든 상용구 체크박스들을 전체선택 상태와 동일하게 설정
+        for checkbox in self.preset_phrase_checkboxes:
+            checkbox.setChecked(is_checked)
 
     def setup_tabs(self):
         # 첫 번째 버튼을 선택된 상태로 설정
