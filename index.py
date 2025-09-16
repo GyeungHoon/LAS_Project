@@ -189,8 +189,12 @@ class MyApp(QMainWindow):
                 border: 2px solid #0078d4;
             }
         """)
-        reportblock.resize(150, 30)
-        reportblock.move(250, 0)
+        reportblock.setFixedSize(80, 30)
+        reportblock.setParent(self)  # 부모를 메인 윈도우로 변경
+        reportblock.move(550, 99)  # 메인 윈도우 기준 절대 위치
+        reportblock.raise_()  # 버튼을 맨 앞으로 가져오기
+        reportblock.show()  # 버튼을 보이게 하기
+        self.reportblock = reportblock  # 인스턴스 변수로 저장
 
 
         clearbutton = QPushButton("비우기")
@@ -209,8 +213,12 @@ class MyApp(QMainWindow):
                 border: 2px solid #0078d4;
             }
         """)
-        clearbutton.resize(150, 30)
-        clearbutton.move(400, 0)
+        clearbutton.setFixedSize(80, 30) 
+        clearbutton.setParent(self)  # 부모를 메인 윈도우로 변경
+        clearbutton.move(630, 99)  # 메인 윈도우 기준 절대 위치
+        clearbutton.raise_()  # 버튼을 맨 앞으로 가져오기
+        clearbutton.show()  # 버튼을 보이게 하기
+        self.clearbutton = clearbutton  # 인스턴스 변수로 저장
         reportlist = QLabel('신고 계정 목록 / 댓글 계정 목록')
         reportlist.setStyleSheet("""
             QLabel {
@@ -223,16 +231,15 @@ class MyApp(QMainWindow):
         styled_box2.setLayout(styled_layout2)
 
 
-        # 레이아웃에 버튼들 추가
+        # 레이아웃에 버튼들 추가 (reportblock과 clearbutton은 제외)
         styled_layout2.addWidget(banlist)
-        styled_layout2.addWidget(reportblock)
-        styled_layout2.addWidget(clearbutton)
         styled_layout2.addWidget(reportlist)
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
         styled_box2.setParent(self)
         styled_box2.move(0, 100)  # 위치 설정
         styled_box2.resize(1800, 40)  # 크기 설정
+        styled_box2.setAttribute(Qt.WA_TransparentForMouseEvents, True)  # 마우스 이벤트 비활성화
         
         # styled_box2를 참조용으로 저장
         self.styled_box2 = styled_box2
