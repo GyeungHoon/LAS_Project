@@ -97,6 +97,7 @@ class MyApp(QMainWindow):
             }
         """)
         report.setFixedHeight(40)
+        report.clicked.connect(self.show_report_popup)  # 팝업 이벤트 연결
         
         proxy = QPushButton("프록시 불러오기")
         proxy.setStyleSheet("""
@@ -1826,6 +1827,145 @@ class MyApp(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    # 알림/신고 목록 팝업 창
+    def show_report_popup(self):
+        from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QTableWidget, QTableWidgetItem, QPushButton, QLabel, QHeaderView, QWidget
+        from PyQt5.QtCore import Qt
+        
+        # 팝업 창 생성
+        popup = QDialog(self)
+        popup.setWindowTitle("알림/신고 목록")
+        popup.setModal(True)
+        popup.resize(1200, 800)
+        
+        # 메인 레이아웃
+        main_layout = QVBoxLayout(popup)
+        
+        # 제목
+        title_label = QLabel("알림/신고 목록")
+        title_label.setStyleSheet("""
+            QLabel {
+                font-size: 18px;
+                font-weight: bold;
+                color: #0078d4;
+                padding: 10px;
+            }
+        """)
+        main_layout.addWidget(title_label)
+        
+        # 2x2 그리드 레이아웃
+        grid_layout = QGridLayout()
+        
+        # 각 섹션을 위한 함수
+        def create_section(title, bg_color="#f9f9f9"):
+            section_widget = QWidget()
+            section_widget.setStyleSheet(f"""
+                QWidget {{
+                    background-color: {bg_color};
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                }}
+            """)
+            
+            section_layout = QVBoxLayout(section_widget)
+            section_layout.setContentsMargins(10, 10, 10, 10)
+            
+            # 제목
+            title_label = QLabel(title)
+            title_label.setStyleSheet("""
+                QLabel {
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #333;
+                    padding: 5px;
+                }
+            """)
+            section_layout.addWidget(title_label)
+            
+            # 내용 영역 (회색 박스)
+            content_area = QWidget()
+            content_area.setStyleSheet("""
+                QWidget {
+                    background-color: #e0e0e0;
+                    border: 1px solid #fff;
+                    border-radius: 3px;
+                }
+            """)
+            content_area.setMinimumHeight(400)
+            section_layout.addWidget(content_area)
+            
+            return section_widget
+        
+        # 4개 섹션 생성
+        section1 = create_section("알림용 [감지목록] 댓글 남은 시간 : 0")
+        section2 = create_section("신고용 [감지목록] 댓글 남은 시간 : 0")
+        section3 = create_section("알림용 [감지목록] 제외 목록")
+        section4 = create_section("신고용 [감지목록] 자동댓글 목록")
+        
+        # 그리드에 섹션들 추가
+        grid_layout.addWidget(section1, 0, 0)  # 왼쪽 위
+        grid_layout.addWidget(section2, 0, 1)  # 오른쪽 위
+        grid_layout.addWidget(section3, 1, 0)  # 왼쪽 아래
+        grid_layout.addWidget(section4, 1, 1)  # 오른쪽 아래
+        
+        # 그리드 레이아웃을 메인 레이아웃에 추가
+        main_layout.addLayout(grid_layout)
+        
+        # 하단 버튼들
+        button_layout = QHBoxLayout()
+        
+        refresh_btn = QPushButton("새로고침")
+        refresh_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 5px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+        """)
+        
+        clear_btn = QPushButton("전체 삭제")
+        clear_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #ff4444;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #ff6666;
+            }
+        """)
+        
+        close_btn = QPushButton("닫기")
+        close_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #666666;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #888888;
+            }
+        """)
+        close_btn.clicked.connect(popup.close)
+        
+        button_layout.addWidget(refresh_btn)
+        button_layout.addWidget(clear_btn)
+        button_layout.addStretch()
+        button_layout.addWidget(close_btn)
+        
+        main_layout.addLayout(button_layout)
+        
+        # 팝업 창을 화면 중앙에 표시
+        popup.exec_()
 
 
 # 메인 함수
