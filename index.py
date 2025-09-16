@@ -168,14 +168,53 @@ class MyApp(QMainWindow):
         banlist = QLabel('차단 목록')
         banlist.setStyleSheet("""
             QLabel {
-                margin-left: 635px;
+                margin-left: 300px;
                 font-weight: bold;
             }
         """)
+
+        reportblock = QPushButton("신고계정차단")
+        reportblock.setStyleSheet("""
+             QPushButton {
+                height: 30px;
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
+            }
+        """)
+        reportblock.resize(150, 30)
+        reportblock.move(250, 0)
+
+
+        clearbutton = QPushButton("비우기")
+        clearbutton.setStyleSheet("""
+             QPushButton {
+                height: 30px;
+                background-color: #f0f8ff;
+                border: 1px solid #0078d4;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #e6f3ff;
+            }
+            QPushButton:pressed {
+                background-color: #d1e7ff;
+                border: 2px solid #0078d4;
+            }
+        """)
+        clearbutton.resize(150, 30)
+        clearbutton.move(400, 0)
         reportlist = QLabel('신고 계정 목록 / 댓글 계정 목록')
         reportlist.setStyleSheet("""
             QLabel {
-                margin-left: 700px;
+                margin-left: 600px;
                 font-weight: bold;
             }
         """)
@@ -186,6 +225,8 @@ class MyApp(QMainWindow):
 
         # 레이아웃에 버튼들 추가
         styled_layout2.addWidget(banlist)
+        styled_layout2.addWidget(reportblock)
+        styled_layout2.addWidget(clearbutton)
         styled_layout2.addWidget(reportlist)
 
         # 스타일 박스를 윈도우에 추가하고 위치 설정
