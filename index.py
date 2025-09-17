@@ -224,7 +224,7 @@ class MyApp(QMainWindow):
         reportlist = QLabel('신고 계정 목록 / 댓글 계정 목록')
         reportlist.setStyleSheet("""
             QLabel {
-                margin-left: 600px;
+                margin-left: 700px;
                 font-weight: bold;
             }
         """)
