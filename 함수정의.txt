@@ -45,16 +45,16 @@ module_utils.py
   - 멀티파트 바디 생성시 바운더리 값 임의 생성
 
  create_multipart_body
-   - 사진 첨부 없이 일반 응원글, 게시글 업로드시 사용하는 멀티파트 생성용 함수
+  - 사진 첨부 없이 일반 응원글, 게시글 업로드시 사용하는 멀티파트 생성용 함수
 
-  create_multipart_body_cheer_with_photo
-   - 사진 첨부를 포함하여 응원글, 게시글 업로드시 사용하는 멀티파트 생성용 함수
+ create_multipart_body_cheer_with_photo
+  - 사진 첨부를 포함하여 응원글, 게시글 업로드시 사용하는 멀티파트 생성용 함수
 
-  create_multipart_body_photo_upload
-   - photo_upload_request(사진 업로드) 함수 전용 멀티파트 생성 함수
+ create_multipart_body_photo_upload
+  - photo_upload_request(사진 업로드) 함수 전용 멀티파트 생성 함수
 
-  create_multipart_body_photo_profile_set
-   - create_multipart_body_photo_profile_set(프로필 셋팅) 함수 전용 멀티파트 생성 함수
+ create_multipart_body_photo_profile_set
+  - create_multipart_body_photo_profile_set(프로필 셋팅) 함수 전용 멀티파트 생성 함수
 
 ------------------------------------------------------------------------------------
 module_req.py
@@ -62,6 +62,11 @@ module_req.py
   ☆ 헤더, 바디의 파라메터를 생성하고, 리퀘스트 후 응답을 파싱하여 return 하는 형태
   ☆ 라스 서버에 요청 후 보통 "CDATA[성공]" ~~~~~ 의 응답이 돌아오면 정산 "CDATA[실패]" 실패
   ☆ 사진, 프로필, 글삭제, 닉네임검사, 게시판(응원글과 다름) 등 UI에 기능이 없는 함수는 제외했음 (원한다고 하면 알려주세요)
+  ☆ 단위테스트 추천 순서 check_keywords_all → cheer_reply_request
+     → user_login_request → update_nickname
+     → get_http_match_data → writing_cheer_request(사진없이)
+     → photo_upload_request → photo_upload_request(사진있는상태로) #요구사항에는 없는 내용임
+     → 차단 관려 함수 아래 안넣어놓음
 
 
   check_keywords_all
@@ -119,5 +124,10 @@ pk= deviceId,    #android값을 seed암호화 한 값
 pk_sub= Widevine ID  #uuid를 seed암호화 한 값 같음...
 rh= 하드웨어 값   #(메인보드명? 예.exynos5 )
 rt=N
+ph = 전화번호 시드 암호화 한 값
+mo = 단말기종
+nt = 통신사
+os_ver = 안드롱이드 api 버전
 opcode=00000000  #(메인페이지 코드 같음)
+
 

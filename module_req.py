@@ -14,8 +14,8 @@ import xml.etree.ElementTree as ET
 
 
 def check_keywords_all(running_flag, selected_game_id, single_run, proxy_host, proxy_port):
-    print(f"check_keywords_all 실행 중1- running_flag 상태: {running_flag()}")
-    while running_flag() or single_run:
+    print(f"check_keywords_all 실행 중1- running_flag 상태: {running_flag}")
+    while running_flag or single_run:
         # print(f"check_keywords_all 실행 중2 - running_flag 상태: {running_flag()}")
         print(f"check_keywords_all 시작")
 
@@ -305,14 +305,14 @@ def update_nickname(proxy_host, proxy_port, account_info):
     pk = seed.encode(account_info.get('aid'))
     rh = get_random_ro_hardware()
     pk_sub = generate_widevine_id(seed)[1]
-    dt = generate_dt()
-    goc = generate_goc()
+    dt = generate_dt() #시간값
+    goc = generate_goc() # 시간 + 시드 암호화
 
 
     # 쿼리 파라미터 변수
     os = 'android'
     rt = 'N'
-    opcode = '00000003'
+    opcode = '00000003' #페이지 구분코드
 
     app_vfy = generate_app_vfy(opcode, account_info.get('aid'), account_info.get('authcode'))
 
@@ -688,7 +688,7 @@ def check_account(account_info, proxy_host, proxy_port):
     finally:
         conn.close()
 
-# 경기 일정 가져오기
+# 경기 일정 가져오기 #search_date포멧 yyyy-MM-dd
 def get_http_match_data(search_date, proxy_host, proxy_port):
     print("get_http_match_data 내부")
 

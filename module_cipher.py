@@ -6,6 +6,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import base64
 import hashlib
 from datetime import datetime, timedelta, timezone
+from module_config import *
 
 class SEED128:
     def __init__(self, iv, key):
